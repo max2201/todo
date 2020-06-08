@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Create from '../views/Create.vue';
 import List from '../views/List.vue';
 import Task from '../views/Task.vue';
 
@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: 'Create',
-    component: Home,
+    component: Create,
   },
   {
     path: '/list',
