@@ -6,9 +6,9 @@
       class="px-2"
       dark
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Page title</v-toolbar-title>
+        <router-link to="/">
+           <v-img src="@/assets/vuetify.svg" height="3rem" width="3rem"></v-img>
+        </router-link>
 
       <v-spacer></v-spacer>
 
@@ -28,6 +28,7 @@
       >
         List
       </v-btn>
+
     </v-app-bar>
   </div>
 </template>
