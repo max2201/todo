@@ -55,9 +55,11 @@
           </template>
           <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
         </v-menu>
-        <v-btn color="yellow" type="submit">Update</v-btn>
-        <v-btn color="green" type="submit">Complete</v-btn>
-        <v-btn color="red" type="submit">Remove</v-btn>
+        <div v-if="task.status !== 'completed'">
+          <v-btn color="yellow" type="submit">Update</v-btn>
+          <v-btn color="green" @click="completeTask">Complete task</v-btn>
+          <v-btn color="red" type="submit">Remove</v-btn>
+        </div>
       </v-form>
     </v-col>
     <p v-else>Task not found</p>
@@ -90,6 +92,10 @@ export default {
     this.date = this.task.date;
   },
   methods: {
+    completeTask() {
+      this.$store.dispatch('completeTask', this.task.id);
+      this.$router.push('/list');
+    },
     submitHandler() {
       this.$store.dispatch('updateTask', {
         id: this.task.id,

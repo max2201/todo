@@ -1,8 +1,16 @@
 <template>
     <div>
 <h1>List</h1>
+      <v-row>
+        <v-col cols="12" sm="3">
+          <v-select v-model="filter"
+            :items="items"
+            label="Status filter"
+            clearable
+          ></v-select>
+        </v-col>
+      </v-row>
       <hr>
-
 <!--      <v-data-table v-if="tasks.length"-->
 <!--        :headers="headers"-->
 <!--        :items="tasks"-->
@@ -54,7 +62,7 @@
 
       <v-data-table
         :headers="headers"
-        :items="tasks"
+        :items="displayTasks"
       >
           <template v-slot:item.actions="{item}">
           <v-btn :to="/task/+ item.id">Open</v-btn>
@@ -72,6 +80,7 @@
 <script>
 export default {
   data: () => ({
+    filter: null,
     headers: [
       { text: '#', value: 'id' },
       { text: 'Title', value: 'title' },
@@ -80,8 +89,18 @@ export default {
       { text: 'Status', value: 'status' },
       { text: 'Open', value: 'actions', sortable: false },
     ],
+    items: ['active', 'completed', 'outdated'],
   }),
   computed: {
+    displayTasks() {
+      return this.tasks.filter((t) => {
+        if (!this.filter) {
+          return true;
+        }
+        return t.status === this.filter;
+      });
+    },
+
     tasks() {
       return this.$store.getters.tasks;
     },

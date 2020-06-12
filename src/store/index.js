@@ -5,11 +5,22 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
+    tasks: JSON.parse(localStorage.getItem('tasks') || '[]').map((task) => {
+      if (new Date(task.date) < new Date()) {
+        // eslint-disable-next-line no-param-reassign
+        task.status = 'outdated';
+      }
+      return task;
+    }),
   },
   mutations: {
     createTask(state, task) {
       state.tasks.push(task);
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
+    },
+    completeTask(state, id) {
+      const idx = state.tasks.findIndex((t) => t.id === id);
+      state.tasks[idx].status = 'completed';
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
     updateTask(state, {
@@ -29,6 +40,9 @@ export default new Vuex.Store({
   actions: {
     createTask({ commit }, task) {
       commit('createTask', task);
+    },
+    completeTask({ commit }, id) {
+      commit('completeTask', id);
     },
     updateTask({ commit }, task) {
       commit('updateTask', task);
